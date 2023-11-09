@@ -1,5 +1,5 @@
 import torch
-from pytorch3d.transforms import matrix_to_quaternion, quaternion_to_matrix, rotation_6d_to_matrix, quaternion_to_axis_angle
+from pytorch3d.pytorch3d.transforms import matrix_to_quaternion, quaternion_to_matrix, rotation_6d_to_matrix, quaternion_to_axis_angle
 
 # TODO: Identity would cause the problem...
 def axis_angle_to_matrix(data):

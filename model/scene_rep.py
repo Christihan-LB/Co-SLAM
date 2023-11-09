@@ -7,6 +7,7 @@ from .encodings import get_encoder
 from .decoder import ColorSDFNet, ColorSDFNet_v2
 from .utils import sample_pdf, batchify, get_sdf_loss, mse2psnr, compute_loss
 
+
 class JointEncoding(nn.Module):
     def __init__(self, config, bound_box):
         super(JointEncoding, self).__init__()
@@ -148,12 +149,12 @@ class JointEncoding(nn.Module):
         Returns:
             raw: [N_rays, N_samples, 4]
         '''
-        inputs_flat = torch.reshape(query_points, [-1, query_points.shape[-1]])
+        inputs_flat = torch.reshape(query_points, [-1, query_points.shape[-1]]).to(torch.float64)
 
-        embed = self.embed_fn(inputs_flat)
-        embe_pos = self.embedpos_fn(inputs_flat)
+        embed = self.embed_fn(inputs_flat).float()
+        embe_pos = self.embedpos_fn(inputs_flat).float()
         if not self.config['grid']['oneGrid']:
-            embed_color = self.embed_fn_color(inputs_flat)
+            embed_color = self.embed_fn_color(inputs_flat).float()
             return self.decoder(embed, embe_pos, embed_color)
         return self.decoder(embed, embe_pos)
     

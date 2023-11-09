@@ -1,0 +1,6 @@
+[submodule "hash-grid-encoding"]
+	path = hash-grid-encoding
+	url = git@github.com:Christihan-LB/hash-grid-encoding.git
+[submodule "pytorch3d"]
+	path = pytorch3d
+	url = git@github.com:Christihan-LB/pytorch3d.git

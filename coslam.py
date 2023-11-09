@@ -1,5 +1,4 @@
 import os
-#os.environ['TCNN_CUDA_ARCHITECTURES'] = '86'
 
 # Package imports
 import torch
@@ -165,6 +164,7 @@ class CoSLAM():
             loss: float
         
         '''
+        
         print('First frame mapping...')
         c2w = batch['c2w'][0].to(self.device)
         self.est_c2w_data[0] = c2w
@@ -715,6 +715,7 @@ if __name__ == '__main__':
         cfg['data']['output'] = args.output
 
     print("Saving config and script...")
+
     save_path = os.path.join(cfg["data"]["output"], cfg['data']['exp_name'])
     if not os.path.exists(save_path):
         os.makedirs(save_path)
