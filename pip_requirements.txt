@@ -1,0 +1,6 @@
+mathutils==2.81.2
+opencv-contrib-python==4.8.1.78
+fvcore==0.1.5.post20221221
+iopath==0.1.10
+tqdm==4.66.1
+trimesh==4.0.3

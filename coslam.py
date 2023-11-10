@@ -15,13 +15,13 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 # Local imports
-import config
-from model.scene_rep import JointEncoding
-from model.keyframe import KeyFrameDatabase
-from datasets.dataset import get_dataset
-from utils import coordinates, extract_mesh, colormap_image
-from tools.eval_ate import pose_evaluation
-from optimization.utils import at_to_transform_matrix, qt_to_transform_matrix, matrix_to_axis_angle, matrix_to_quaternion
+from . import config
+from .model.scene_rep import JointEncoding
+from .model.keyframe import KeyFrameDatabase
+from .datasets.dataset import get_dataset
+from .utils import coordinates, extract_mesh, colormap_image
+from .tools.eval_ate import pose_evaluation
+from .optimization.utils import at_to_transform_matrix, qt_to_transform_matrix, matrix_to_axis_angle, matrix_to_quaternion
 
 
 class CoSLAM():
@@ -355,15 +355,15 @@ class CoSLAM():
             
             loss.backward(retain_graph=True)
             
-            if (i + 1) % cfg["mapping"]["map_accum_step"] == 0:
+            if (i + 1) % self.config["mapping"]["map_accum_step"] == 0:
                
-                if (i + 1) > cfg["mapping"]["map_wait_step"]:
+                if (i + 1) > self.config["mapping"]["map_wait_step"]:
                     self.map_optimizer.step()
                 else:
                     print('Wait update')
                 self.map_optimizer.zero_grad()
 
-            if pose_optimizer is not None and (i + 1) % cfg["mapping"]["pose_accum_step"] == 0:
+            if pose_optimizer is not None and (i + 1) % self.config["mapping"]["pose_accum_step"] == 0:
                 pose_optimizer.step()
                 # get SE3 poses to do forward pass
                 pose_optim = self.matrix_from_tensor(cur_rot, cur_trans)
@@ -675,7 +675,7 @@ class CoSLAM():
                     pose_evaluation(self.pose_gt, self.est_c2w_data, 1, os.path.join(self.config['data']['output'], self.config['data']['exp_name']), i)
                     pose_evaluation(self.pose_gt, pose_relative, 1, os.path.join(self.config['data']['output'], self.config['data']['exp_name']), i, img='pose_r', name='output_relative.txt')
 
-                    if cfg['mesh']['visualisation']:
+                    if self.config['mesh']['visualisation']:
                         cv2.namedWindow('Traj:'.format(i), cv2.WINDOW_AUTOSIZE)
                         traj_image = cv2.imread(os.path.join(self.config['data']['output'], self.config['data']['exp_name'], "pose_r_{}.png".format(i)))
                         # best_traj_image = cv2.imread(os.path.join(best_logdir_scene, "pose_r_{}.png".format(i)))
