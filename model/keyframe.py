@@ -2,6 +2,7 @@ import torch
 import numpy as np
 import random
 
+
 class KeyFrameDatabase(object):
     def __init__(self, config, H, W, num_kf, num_rays_to_save, device) -> None:
         self.config = config
